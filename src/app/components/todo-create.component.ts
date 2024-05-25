@@ -26,6 +26,7 @@ export class TodoCreateComponent {
   todoText = signal('');
   addTodoMutation = injectMutation((client) => ({
     mutationFn: (todo: Todo) => this.todoService.create(todo),
+    mutationKey: ['addTodo'],
     onSuccess: () => {
       this.todoText.set('');
       return client.invalidateQueries({ queryKey: ['todos'] });

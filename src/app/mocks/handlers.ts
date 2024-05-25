@@ -1,4 +1,4 @@
-import { http, HttpResponse } from 'msw';
+import { delay, http, HttpResponse } from 'msw';
 import { Todo } from '../components/todo.types';
 
 const items: Todo[] = [
@@ -13,6 +13,7 @@ export const handlers = [
     return HttpResponse.json(items);
   }),
   http.post('/todos', async ({ request }) => {
+    await delay(3000);
     const newTodo = (await request.json()) as Todo;
 
     // sometimes it will fail, this will cause a regression on the UI
