@@ -3,9 +3,8 @@ import { Todo } from '../components/todo.types';
 
 const items: Todo[] = [
   {
-    id: 1,
-    title: 'First title',
-    body: ' First body',
+    id: Date.now(),
+    text: ' First todo',
   },
 ];
 

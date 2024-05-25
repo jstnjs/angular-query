@@ -17,7 +17,7 @@ import { TodoService } from './todo.service';
   template: ` <h2>List of todos</h2>
     <ul>
       @for (todo of todos.data(); track $index) {
-      <li>{{ todo.title }}</li>
+      <li>{{ todo.text }}</li>
       }
     </ul>`,
 })

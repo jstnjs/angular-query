@@ -9,31 +9,34 @@ import {
 import { Todo } from './todo.types';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { TodoService } from './todo.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
+  imports: [FormsModule],
   selector: 'todo-create',
   template: ` Create a new todo <br />
 
-    <button
-      (click)="
-        addTodo({ id: 1, title: 'Lorem ipsum', body: 'A nice description' })
-      "
-    >
-      Add todo
-    </button>`,
+    <input type="text" [(ngModel)]="todoText" />
+    <button (click)="addTodo()">Add todo</button>`,
 })
 export class TodoCreateComponent {
   todoService = inject(TodoService);
+  todoText = signal('');
   addTodoMutation = injectMutation((client) => ({
     mutationFn: (todo: Todo) => this.todoService.create(todo),
     onSuccess: () => {
+      this.todoText.set('');
       return client.invalidateQueries({ queryKey: ['todos'] });
     },
   }));
 
-  addTodo(todo: Todo) {
-    this.addTodoMutation.mutate(todo);
+  addTodo() {
+    const newTodo = {
+      id: Date.now(),
+      text: this.todoText(),
+    };
+    this.addTodoMutation.mutate(newTodo);
   }
 }
