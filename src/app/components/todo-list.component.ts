@@ -28,6 +28,8 @@ import { JsonPipe } from '@angular/common';
         {{ todo.text }}
       }
 
+      <div class="bg-red-200">Test</div>
+
       <!-- @if (addTodoMutationState()) {
         {{ addTodoMutationState() | json }}
       } -->
