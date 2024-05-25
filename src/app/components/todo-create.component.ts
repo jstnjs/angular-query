@@ -1,11 +1,21 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
+  model,
+  signal,
+} from '@angular/core';
 import { Todo } from './todo.types';
+import { injectMutation } from '@tanstack/angular-query-experimental';
+import { TodoService } from './todo.service';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   selector: 'todo-create',
   template: ` Create a new todo <br />
+
     <button
       (click)="
         addTodo({ id: 1, title: 'Lorem ipsum', body: 'A nice description' })
@@ -15,7 +25,15 @@ import { Todo } from './todo.types';
     </button>`,
 })
 export class TodoCreateComponent {
+  todoService = inject(TodoService);
+  addTodoMutation = injectMutation((client) => ({
+    mutationFn: (todo: Todo) => this.todoService.create(todo),
+    onSuccess: () => {
+      return client.invalidateQueries({ queryKey: ['todos'] });
+    },
+  }));
+
   addTodo(todo: Todo) {
-    console.log(todo);
+    this.addTodoMutation.mutate(todo);
   }
 }
