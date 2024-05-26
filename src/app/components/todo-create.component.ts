@@ -10,6 +10,7 @@ import { Todo } from './todo.types';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { TodoService } from './todo.service';
 import { FormsModule } from '@angular/forms';
+import { injectCreateTodo } from './todo.try';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,14 +48,8 @@ import { FormsModule } from '@angular/forms';
 export class TodoCreateComponent {
   todoService = inject(TodoService);
   todoText = signal('');
-  addTodoMutation = injectMutation((client) => ({
-    mutationFn: (todo: Todo) => this.todoService.create(todo),
-    mutationKey: ['addTodo'],
-    onSuccess: () => {
-      this.todoText.set('');
-      return client.invalidateQueries({ queryKey: ['todos'] });
-    },
-  }));
+
+  addTodoMutation = this.todoService.createTodo;
 
   addTodo() {
     const newTodo = {

@@ -17,12 +17,12 @@ export const handlers = [
     const newTodo = (await request.json()) as Todo;
 
     // sometimes it will fail, this will cause a regression on the UI
-    if (Math.random() > 0.7) {
+    if (Math.random() > 0.0) {
       return HttpResponse.json(
         { message: 'Could not add item!' },
         {
           status: 500,
-        }
+        },
       );
     }
 
