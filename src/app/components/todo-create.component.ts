@@ -57,5 +57,6 @@ export class TodoCreateComponent {
       text: this.todoText(),
     };
     this.createTodoMutation.mutate(newTodo);
+    this.todoText.set('');
   }
 }
