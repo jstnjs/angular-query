@@ -9,9 +9,10 @@ import { injectMutation } from '@tanstack/angular-query-experimental';
 export class TodoService {
   http = inject(HttpClient);
 
-  createTodo = injectMutation((client) => ({
+  createMutation = injectMutation((client) => ({
     mutationKey: ['addTodo'],
-    mutationFn: (todo: Todo) => this.create({ id: 123, text: 'tesst' }),
+    mutationFn: (todo: Todo) => this.create(todo),
+    onSuccess: () => client.invalidateQueries({ queryKey: ['todos'] }),
   }));
 
   get(): Promise<Todo[]> {

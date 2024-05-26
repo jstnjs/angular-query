@@ -49,13 +49,13 @@ export class TodoCreateComponent {
   todoService = inject(TodoService);
   todoText = signal('');
 
-  addTodoMutation = this.todoService.createTodo;
+  createTodoMutation = this.todoService.createMutation;
 
   addTodo() {
     const newTodo = {
       id: Date.now(),
       text: this.todoText(),
     };
-    this.addTodoMutation.mutate(newTodo);
+    this.createTodoMutation.mutate(newTodo);
   }
 }
